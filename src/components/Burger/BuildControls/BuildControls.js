@@ -11,6 +11,7 @@ const controls = [
 ]
 
 const buildControls = (props) => {
+    console.log(props.disabledInfo);
     const transformedControls = controls.map(c => {
         return <BuildControl label={c.label} key={c.label} 
             added={()=> props.addIngredient(c.type)} 
