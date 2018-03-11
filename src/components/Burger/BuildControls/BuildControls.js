@@ -11,7 +11,6 @@ const controls = [
 ]
 
 const buildControls = (props) => {
-    console.log(props.disabledInfo);
     const transformedControls = controls.map(c => {
         return <BuildControl label={c.label} key={c.label} 
             added={()=> props.addIngredient(c.type)} 
@@ -20,6 +19,7 @@ const buildControls = (props) => {
     })
     return (
         <div className={classes.BuildControls} >
+            <p>Current Price : <strong>{props.price.toFixed(2)}</strong></p>
             {transformedControls}
         </div>
     )
