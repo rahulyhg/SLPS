@@ -8,11 +8,9 @@ class BurgerIngredient extends Component {
 
     render(){
         let ingredient = null;
-        console.log("BreadTop: type: " + this.props.type + " Enum:" + IngredientType.BREADBOTTOM.description);
         switch(this.props.type){
             case (IngredientType.BREADBOTTOM.description):
                 ingredient = <div className={classes.BreadBottom} />
-                console.log('should render:' + IngredientType.BREADBOTTOM.description);
                 break;
             case (IngredientType.BREADTOP.description):
                 ingredient = <div className={classes.BreadTop}>
@@ -27,7 +25,7 @@ class BurgerIngredient extends Component {
                 ingredient = <div className={classes.Cheese} />
                 break;
             case (IngredientType.SALAD.description):
-                ingredient = <div className={classes.SALAD} />
+                ingredient = <div className={classes.Salad} />
                 break;
             case (IngredientType.BACON.description):
                 ingredient = <div className={classes.Bacon} />
