@@ -1,5 +1,6 @@
 import React from 'react';
 import AuxWrapper from '../../../hoc/AuxWrapper';
+import Button from '../../UI/Button/Button';
 
 const orderSummary = (props) => {
     const orderIngredients = Object.keys(props.ingredients)
@@ -15,7 +16,10 @@ const orderSummary = (props) => {
             <ul>
                 {orderIngredients}
             </ul>
+            <p><strong>price: {props.price.toFixed(2)}</strong></p>
             <p>continue to checkout?</p>
+            <Button btnType="Danger" clicked={props.cancelOrder}>CANCEL</Button>
+            <Button btnType="Success" clicked={props.continueOrder} >CONTINUE</Button>
         </AuxWrapper>        
     )
 }
