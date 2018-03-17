@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {Component} from 'react';
 import AuxWrapper from '../../../hoc/AuxWrapper';
 import Button from '../../UI/Button/Button';
 
-const orderSummary = (props) => {
-    const orderIngredients = Object.keys(props.ingredients)
+class OrderSummary extends Component{
+
+    componentWillUpdate(nextProps, nextState, nextContext){
+        console.log('Ordersummary.js componentWillUpdate');
+    }
+    render(){
+        const orderIngredients = Object.keys(this.props.ingredients)
         .map((igKey) => {
             return <li key={igKey}>
-                <span style={{textTranform:'capitalize'}}>{igKey}</span> :{props.ingredients[igKey]}
+                <span style={{textTranform:'capitalize'}}>{igKey}</span> :{this.props.ingredients[igKey]}
                 </li>
             });
     return (
@@ -16,12 +21,12 @@ const orderSummary = (props) => {
             <ul>
                 {orderIngredients}
             </ul>
-            <p><strong>price: {props.price.toFixed(2)}</strong></p>
+            <p><strong>price: {this.props.price.toFixed(2)}</strong></p>
             <p>continue to checkout?</p>
-            <Button btnType="Danger" clicked={props.cancelOrder}>CANCEL</Button>
-            <Button btnType="Success" clicked={props.continueOrder} >CONTINUE</Button>
+            <Button btnType={"Danger"} clicked={this.props.cancelOrder}>CANCEL</Button>
+            <Button btnType={"Success"} clicked={this.props.continueOrder} >CONTINUE</Button>
         </AuxWrapper>        
-    )
+    )}
 }
 
-export default orderSummary;
+export default OrderSummary;

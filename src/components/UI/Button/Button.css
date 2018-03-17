@@ -1,5 +1,5 @@
-.Button {
-    background-color: transparent;
+.Button{
+    background-color: black;
     border: none;
     color: white;
     outline: none;
@@ -16,9 +16,11 @@
 }
 
 .Success {
+    background-color: transparent;
     color: #5C9210;
 }
 
-.Danger {
+.Button .Danger {
+    background-color: transparent;
     color: #944317;
 }
