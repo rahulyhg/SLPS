@@ -5,6 +5,8 @@ import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import AuxWrapper from '../../hoc/AuxWrapper';
 
+import axios from '../../axious-orders';
+
 const INGREDIENT_PRICE = {
     salad : 0.5,
     bacon : 0.4,
@@ -79,7 +81,27 @@ class BurgerBuilder extends Component {
         this.setState({showOrderNow: false});
     }
 
-    continueOrderHanlder = () => alert('Order continued...');
+    continueOrderHanlder = () => {
+        //alert('Order continued...');
+        const order = {
+            ingredients : this.state.ingredients,
+            price : this.state.totalPrice,
+            customer : {
+                name : 'Rajnikant Dankhara',
+                address : {
+                    street : 'My Street',
+                    postCode : 'P134A',
+                    country : 'UK'
+                },
+                email: 'rajnikant.dankhara@gmail.com',
+                deliveryMethod: 'fastest'
+            }
+        };
+
+        axios.post('/orders.json', order)
+            .then(response => console.log(response))
+            .catch(error => console.log(error));
+    }
 
     render(){
         const disabledInfo = {...this.state.ingredients};
