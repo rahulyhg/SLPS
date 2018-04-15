@@ -8,6 +8,7 @@ class BurgerIngredient extends Component {
 
     render(){
         let ingredient = null;
+        console.log('ingredient being added', this.props.type);
         switch(this.props.type){
             case (IngredientType.BREADBOTTOM.description):
                 ingredient = <div className={classes.BreadBottom} />

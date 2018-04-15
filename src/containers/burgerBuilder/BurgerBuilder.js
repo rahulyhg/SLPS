@@ -7,6 +7,7 @@ import AuxWrapper from '../../hoc/AuxWrapper';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import axios from '../../axious-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import Urls from '../../core/Urls';
 
 const INGREDIENT_PRICE = {
     salad : 0.5,
@@ -84,31 +85,44 @@ class BurgerBuilder extends Component {
     }
 
     continueOrderHanlder = () => {
-        this.setState({loading : true});
+        // this.setState({loading : true});
 
-        const order = {
-            ingredients : this.state.ingredients,
-            price : this.state.totalPrice,
-            customer : {
-                name : 'Rajnikant Dankhara',
-                address : {
-                    street : 'My Street',
-                    postCode : 'P134A',
-                    country : 'UK'
-                },
-                email: 'rajnikant.dankhara@gmail.com',
-                deliveryMethod: 'fastest'
-            }
-        };
+        // const order = {
+        //     ingredients : this.state.ingredients,
+        //     price : this.state.totalPrice,
+        //     customer : {
+        //         name : 'Rajnikant Dankhara',
+        //         address : {
+        //             street : 'My Street',
+        //             postCode : 'P134A',
+        //             country : 'UK'
+        //         },
+        //         email: 'rajnikant.dankhara@gmail.com',
+        //         deliveryMethod: 'fastest'
+        //     }
+        // };
 
-        axios.post('/orders.json', order)
-        .then(response => this.setState({loading:false, showOrderNow : false}))
-        .catch(error =>{
-            this.setState({loading:false, showOrderNow : false});
-            console.log(error);
+        // axios.post('/orders.json', order)
+        // .then(response => this.setState({loading:false, showOrderNow : false}))
+        // .catch(error =>{
+        //     this.setState({loading:false, showOrderNow : false});
+        //     console.log(error);
+        // });
+
+        const queryParams = [];
+        for(let i in this.state.ingredients){
+                let param = `${encodeURIComponent(i)}=${encodeURIComponent(this.state.ingredients[i])}`;
+                queryParams.push(param);
+        }
+        const queryString = queryParams.join('&');
+        this.props.history.push({
+            pathname: Urls.checkout,
+            search: `?${queryString}`
         });
     }
-
+    componentDidMount(){
+        console.log(this.props);
+    }
     render(){
         const disabledInfo = {...this.state.ingredients};
         for(let key in disabledInfo){
