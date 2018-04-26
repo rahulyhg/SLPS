@@ -3,7 +3,7 @@
     left: 0;
     height: 56px;
     width:100%;
-    background-image: linear-gradient(to bottom, rgb(89, 145, 228), rgb(54, 144, 213));
+    background-color: rgb(107, 59, 14);
     display: flex;
     align-items: center;
     justify-content: space-between;

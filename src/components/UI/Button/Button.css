@@ -15,12 +15,12 @@
     padding-left: 0;
 }
 
-.Button .Success {
+.Success {
     background-color: transparent;
     color: #5C9210;
 }
 
-.Button .Danger {
+.Danger {
     background-color: transparent;
     color: #944317;
 }
