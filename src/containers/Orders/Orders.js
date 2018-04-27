@@ -45,4 +45,4 @@ class Orders extends Component {
     }
 }
 
-export default Orders;
+export default withErrorHandler(Orders, axios);
