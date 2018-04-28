@@ -3,22 +3,26 @@ import classes from './Input.css';
 
 const Input = (props) => {
     let inputElement = null;
-
+    const elementClasses = [classes.InputElement];
+    if (!props.valid){
+        elementClasses.push(classes.Invalid);
+    }
+    const inputElementClass = elementClasses.join(' ');
     switch(props.elementType){
         case('input'):
-            inputElement = <input className={classes.InputElement}
+            inputElement = <input className={inputElementClass}
                 onChange={props.changed} 
                 {...props.elementConfig} 
                 value={props.value}/>;
             break;
         case('inputarea'):
-            inputElement = <inputarea className={classes.InputElement}
+            inputElement = <inputarea className={inputElementClass}
                 onChange={props.changed} 
                 {...props.elementConfig} 
                 value={props.value}/>;
             break;
         case('select'):
-            inputElement = <select className={classes.InputElement}
+            inputElement = <select className={inputElementClass}
                 onChange={props.changed}
                 value={props.value}>
                 {props.elementConfig.options.map(option => (
@@ -28,15 +32,21 @@ const Input = (props) => {
             </select>
             break;
         default:
-            inputElement = <input className={classes.InputElement}
+            inputElement = <input className={inputElementClass}
                 onChange={props.changed}
                 {...props.elementConfig} 
                 value={props.value}/>;
+                break;
     }
+    const errorMessages = props.errorMessages ? 
+        props.errorMessages.map(message => <p key={message} className={classes.ErrorMessage}>{message}</p>) : null;
+    const validationError = props.errorMessages ? errorMessages : null;
+
     return(
         <div className={classes.Input}>
             <label className={classes.Label}>{props.label}{props.label ? ':' : ''}</label>
             {inputElement}
+            {validationError}
         </div>
         );
 }

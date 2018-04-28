@@ -4,6 +4,7 @@ import classes from './ContactData.css';
 import axios from '../../../axious-orders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
+import ValidationResult from '../../../core/ValidationResult';
 
 class ContactData extends Component {
     state = {
@@ -12,32 +13,56 @@ class ContactData extends Component {
             elementType : 'input',
             elementConfig : {
                 type : 'text',
-                placeholder : 'enter Name'
+                placeholder : 'Name'
             },
-            value : ''
+            value : '',
+            validation: {
+                required: true,
+                maxLength: 50
+            },
+            errorMessages : [],
+            valid : true
         },
         email: {
             elementType : 'input',
             elementConfig : {
                 type : 'email',
-                placeholder : 'enter E-Mail'
+                placeholder : 'E-Mail'
             },
+            validation: {
+                required : true,
+                minLength: 5,
+                maxLength:35
+            },
+            errorMessages : [],
+            valid : true,
             value : ''
         },
         street : {
             elementType : 'input',
             elementConfig : {
                 type : 'text',
-                placeholder : 'enter Street'
+                placeholder : 'Street'
             },
-            value : ''
+            value : '',
+            errorMessages : [],
+            validation: {
+                maxLength : 50
+            },
+            valid : true
         },
         postalCode: {
             elementType : 'input',
             elementConfig : {
                 type : 'text',
-                placeholder : 'enter post code'
+                placeholder : 'Post code'
             },
+            errorMessages : [],
+            validation : {
+                minLength : 5,
+                maxLength : 10
+            },
+            valid: true,
             value : ''
         },
         country: {
@@ -46,6 +71,11 @@ class ContactData extends Component {
                 type : 'text',
                 placeholder : 'Country'
             },
+            errorMessages : [],
+            validation: {
+                maxLength: 50
+            },
+            valid : true,
             value : ''
         },        
         deliveryMethod : {
@@ -54,10 +84,17 @@ class ContactData extends Component {
                 options : [{value: 'fastest', display: 'Fastest'},
                             {value: 'cheapest', display: 'Cheapest'}]
             },
-            value : 'fastest'
+            value : 'fastest',
+            errorMessages : [],
+            validation: {
+                required: true
+            },
+            valid:true,
             }
         },
-        loading : false
+        loading : false,
+        isFormValid : false,
+        isModified : false
     }
 
     orderDataHandler = (event) => {
@@ -73,7 +110,6 @@ class ContactData extends Component {
             price : this.props.price,
             orderData: orderForm
         };
-
         axios.post('/orders.json', order)
         .then(response => 
             {
@@ -86,29 +122,70 @@ class ContactData extends Component {
         });
     }
 
+    checkValidity = (value, rules) => {
+        let valid = true;
+        let errorMessages = [];
+
+        if (!rules){
+            return ValidationResult.valid;
+        }
+
+        if (rules.required){
+            valid = valid && value.trim() !== '';
+            if (!valid){
+                errorMessages.push('Required.');
+            }
+        }
+
+        if (rules.minLength){
+            valid = valid && value.length >= rules.minLength;
+            if (!valid){
+                errorMessages.push(`Minimum ${rules.minLength} character required.`);
+            }
+        }
+
+        if (rules.maxLength){
+            valid = valid && value.length <= rules.maxLength;
+            if (!valid){
+                errorMessages.push(`Maximum ${rules.minLength} character allowed.`);
+            }
+        }
+
+        return new ValidationResult(valid, errorMessages);
+    }
+
     inputChangeHandler = (event, identifier) => {
-        console.log(event.target.value);
         const updatedForm = {...this.state.orderForm};
         const updatedElement = {...updatedForm[identifier]};
         updatedElement.value = event.target.value;
+        const validationResult = this.checkValidity(updatedElement.value, updatedElement.validation);
+        updatedElement.valid = validationResult.isValid;
+        updatedElement.errorMessages = validationResult.messages;
         updatedForm[identifier] = updatedElement;
-        this.setState({orderForm: updatedForm});
+        
+        const isFormValid = (!this.state.isModified || this.state.isFormValid) && updatedElement.valid;
+        console.log('isFormValid', isFormValid)
+        this.setState({orderForm: updatedForm, isModified:true, isFormValid : isFormValid});
     }
     render(){
         let form = (<form>
             {Object.keys(this.state.orderForm).map(key => {
+                const config = this.state.orderForm[key];
                 return <Input key={key}
+                    id={key}
                     changed={(event) => this.inputChangeHandler(event, key)}
-                    elementType={this.state.orderForm[key].elementType}
-                    elementConfig={this.state.orderForm[key].elementConfig}
-                    value={this.state.orderForm[key].value}
+                    elementType={config.elementType}
+                    elementConfig={config.elementConfig}
+                    value={config.value}
+                    valid={config.valid}
+                    errorMessages={config.errorMessages}
                     />;
             })}
         {/* <Input label="Email" inputtype='input' type="text" placeholder="Your email" />
         <Input label="Name" inputtype='input' type="text" placeholder="Your name" />
         <Input label="Street" inputtype='input' type="text" placeholder="Your street" />
         <Input label="Postal Code" inputtype='input' type="text" placeholder="Your postal code" /> */}
-        <Button btnType="Success"
+        <Button btnType="Success" disabled={!this.state.isFormValid}
             clicked={this.orderDataHandler}>ORDER</Button>
         </form>);
         if (this.state.loading){
@@ -116,7 +193,6 @@ class ContactData extends Component {
         }
 
     return (
-
             <div className={classes.ContactData}>
                 <h4>Enter your delivery address </h4>
                 {form}
