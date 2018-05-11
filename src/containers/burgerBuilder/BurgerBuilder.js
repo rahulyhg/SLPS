@@ -11,24 +11,14 @@ import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import * as actionTypes from '../../store/actions';
 import Urls from '../../core/Urls';
 
-const INGREDIENT_PRICE = {
-    salad : 0.5,
-    bacon : 0.4,
-    meat : 1.4,
-    cheese : 1
-};
-
 class BurgerBuilder extends Component {
     constructor(props){
         super(props);
         this.state = {
-            totalPrice : 4.0,
             canOrder: false,
             showOrderNow: false,
             loading : false            
         };
-        this.addIngredientHandler.bind(this);
-        this.removeIngredientHandler.bind(this);
     }
 
     checkCanOrder(ingredients){
@@ -39,37 +29,6 @@ class BurgerBuilder extends Component {
             console.warn("No indgredients, can't order");
         }
         return totalIngredients > 0;
-    }
-
-    addIngredientHandler = (type) => {
-        const intialCount = this.state.ingredients[type];
-        const updatedCount = intialCount + 1;
-        const updatedPrice = this.state.totalPrice + INGREDIENT_PRICE[type];
-        const updatedIngredients = {...this.state.ingredients};
-        updatedIngredients[type] = updatedCount;
-        const canOrderValue = this.checkCanOrder(updatedIngredients);
-        this.setState({
-            ingredients : updatedIngredients,
-            totalPrice : updatedPrice,
-            canOrder : canOrderValue
-        });
-    }
-
-    removeIngredientHandler = (type) => {
-        const intialCount = this.state.ingredients[type];
-        if (intialCount <= 0){
-            return ;
-        }
-        const updatedCount = intialCount - 1;
-        const updatedPrice = this.state.totalPrice - INGREDIENT_PRICE[type];
-        const updatedIngredients = {...this.state.ingredients};
-        updatedIngredients[type] = updatedCount;
-        const canOrderValue = this.checkCanOrder(updatedIngredients);
-        this.setState({
-            ingredients : updatedIngredients,
-            totalPrice : updatedPrice,
-            canOrder: canOrderValue
-        });
     }
     
     showOrderNowHandler = () => {
@@ -108,7 +67,7 @@ class BurgerBuilder extends Component {
         if (!this.state.loading){
             summary = <OrderSummary ingredients={this.props.ings} 
             cancelOrder={this.cancelOrderHandler}
-            price={this.state.totalPrice}
+            price={this.props.price}
             continueOrder={this.continueOrderHanlder}/>;
         }
         return(
@@ -120,7 +79,7 @@ class BurgerBuilder extends Component {
                     ingredients ={this.props.ings}
                      />
                 <BuildControls 
-                    price={this.state.totalPrice}
+                    price={this.props.price}
                     addIngredient={this.props.onAddIngredient}
                     removeIngredient={this.props.onRemoveIngredient}
                     disabledInfo={disabledInfo}
@@ -135,7 +94,8 @@ class BurgerBuilder extends Component {
 const mapStateToProps = state => {
     console.log(state);
     return {
-        ings : state.ingredients
+        ings : state.ingredients,
+        price : state.totalPrice
     };
 }
 
