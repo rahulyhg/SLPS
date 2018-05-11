@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import Button from '../../../components/UI/Button/Button';
 import classes from './ContactData.css';
 import axios from '../../../axious-orders';
@@ -106,7 +107,7 @@ class ContactData extends Component {
             orderForm[identifier] = this.state.orderForm[identifier].value;
         }
         const order = {
-            ingredients : this.props.ingredients,
+            ingredients : this.props.ings,
             price : this.props.price,
             orderData: orderForm
         };
@@ -181,10 +182,7 @@ class ContactData extends Component {
                     errorMessages={config.errorMessages}
                     />;
             })}
-        {/* <Input label="Email" inputtype='input' type="text" placeholder="Your email" />
-        <Input label="Name" inputtype='input' type="text" placeholder="Your name" />
-        <Input label="Street" inputtype='input' type="text" placeholder="Your street" />
-        <Input label="Postal Code" inputtype='input' type="text" placeholder="Your postal code" /> */}
+        
         <Button btnType="Success" disabled={!this.state.isFormValid}
             clicked={this.orderDataHandler}>ORDER</Button>
         </form>);
@@ -201,4 +199,10 @@ class ContactData extends Component {
     }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+    return {
+        ings : state.ingredients,
+        price : state.totalPrice
+    }
+}
+export default connect(mapStateToProps)(ContactData);
