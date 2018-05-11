@@ -58,7 +58,6 @@ class BurgerBuilder extends Component {
         console.log(this.props);
     }
     render(){
-        console.log('render props.ings', this.props.ings);
         const disabledInfo = {...this.props.ings};
         for(let key in disabledInfo){
             disabledInfo[key] = disabledInfo[key] <= 0;
