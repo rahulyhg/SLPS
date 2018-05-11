@@ -15,10 +15,10 @@ class BurgerBuilder extends Component {
     constructor(props){
         super(props);
         this.state = {
-            canOrder: false,
             showOrderNow: false,
             loading : false            
         };
+        this.checkCanOrder.bind(this);
     }
 
     checkCanOrder(ingredients){
@@ -83,7 +83,7 @@ class BurgerBuilder extends Component {
                     addIngredient={this.props.onAddIngredient}
                     removeIngredient={this.props.onRemoveIngredient}
                     disabledInfo={disabledInfo}
-                    canOrder={this.state.canOrder}
+                    canOrder={this.checkCanOrder(this.props.ings)}
                     showOrder={this.showOrderNowHandler}
                     />
             </AuxWrapper>
