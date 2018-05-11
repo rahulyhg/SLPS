@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
-import {reducer} from './store/reducers';
+import reducer from './store/reducers';
 
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-const store = createStore(reducer);
+const appState = createStore(reducer);
 
 const app = (
-    <Provider store={store}>
+    <Provider store={appState}>
         <BrowserRouter>
             <App />
         </BrowserRouter>
