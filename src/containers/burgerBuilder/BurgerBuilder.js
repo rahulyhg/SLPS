@@ -40,22 +40,10 @@ class BurgerBuilder extends Component {
     }
 
     continueOrderHanlder = () => {
-
-        const queryParams = [];
-        let param = `${encodeURIComponent('price')}=${encodeURIComponent(this.state.totalPrice)}`;
-        queryParams.push(param);
-        for(let i in this.state.ingredients){
-                param = `${encodeURIComponent(i)}=${encodeURIComponent(this.state.ingredients[i])}`;
-                queryParams.push(param);
-        }
-        const queryString = queryParams.join('&');
-        this.props.history.push({
-            pathname: Urls.checkout,
-            search: `?${queryString}`
-        });
+        this.props.history.push(Urls.checkout);
     }
     componentDidMount(){
-        console.log(this.props);
+        console.log('BurgerBuilder.js componentDidMount')
     }
     render(){
         const disabledInfo = {...this.props.ings};
