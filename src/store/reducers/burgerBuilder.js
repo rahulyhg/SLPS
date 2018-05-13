@@ -1,13 +1,10 @@
-import * as actionTypes from './actions';
+import * as actionTypes from '../actions/actionTypes';
+import reduxThunk from 'redux-thunk';
 
 const initialState = {
-    ingredients : {
-        salad : 0,
-        bacon : 0, 
-        cheese : 0, 
-        meat : 0
-    },
-    totalPrice : 4
+    ingredients : null,
+    totalPrice : 4,
+    error: false
 };
 
 const INGREDIENT_PRICE = {
@@ -39,6 +36,17 @@ const reducer = (state = initialState, action) => {
             };
             t1.ingredients[action.ingredientName] = t1.ingredients[action.ingredientName] - 1;
             return t1;
+        case actionTypes.FETCH_INGREDIENT_FAILED:
+            return {
+                ...state,
+                error: true
+            }
+        case actionTypes.SET_INGREDIENT:
+            return {
+                ...state,
+                error: false,
+                ingredients : action.ingredients
+            }
     }
     return state;
 };
