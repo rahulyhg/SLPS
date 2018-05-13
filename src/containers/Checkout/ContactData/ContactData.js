@@ -135,6 +135,7 @@ class ContactData extends Component {
             valid = valid && value.trim() !== '';
             if (!valid){
                 errorMessages.push('Required.');
+                console.log('failed @ required');
             }
         }
 
@@ -142,16 +143,21 @@ class ContactData extends Component {
             valid = valid && value.length >= rules.minLength;
             if (!valid){
                 errorMessages.push(`Minimum ${rules.minLength} character required.`);
+                console.log('failed min length validation');
             }
         }
 
         if (rules.maxLength){
+            console.log(`value.length ${value.length}`);
             valid = valid && value.length <= rules.maxLength;
             if (!valid){
-                errorMessages.push(`Maximum ${rules.minLength} character allowed.`);
+                errorMessages.push(`Maximum ${rules.maxLength} character allowed. But you entered ${value.length}`);
+                console.log('failed max length validation');
             }
         }
-
+        if (!valid){
+            console.log(value, 'is not valid')
+        }
         return new ValidationResult(valid, errorMessages);
     }
 
@@ -164,8 +170,9 @@ class ContactData extends Component {
         updatedElement.errorMessages = validationResult.messages;
         updatedForm[identifier] = updatedElement;
         
-        const isFormValid = (!this.state.isModified || this.state.isFormValid) && updatedElement.valid;
+        const isFormValid = true; //(!this.state.isModified || this.state.isFormValid) && updatedElement.valid;
         console.log('isFormValid', isFormValid)
+
         this.setState({orderForm: updatedForm, isModified:true, isFormValid : isFormValid});
     }
     render(){

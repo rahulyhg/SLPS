@@ -22,7 +22,7 @@ const loggerMiddleware = state => {
         }
     }
 }
-const appState = createStore(burgerBuilderReducer, composeEnhancers(applyMiddleware(thunk)));
+const appState = createStore(burgerBuilderReducer, composeEnhancers(applyMiddleware(loggerMiddleware, thunk)));
 
 const app = (
     <Provider store={appState}>
