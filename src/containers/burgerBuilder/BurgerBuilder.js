@@ -44,6 +44,7 @@ class BurgerBuilder extends Component {
     }
 
     continueOrderHanlder = () => {
+        this.props.onOrderPlaced();
         this.props.history.push(Urls.checkout);
     }
 
@@ -99,7 +100,8 @@ const mapDispatchToProps = dispatch => {
             dispatch(actions.addIngredient(ingName));
         },
         onRemoveIngredient : (ingName) => dispatch(actions.removeIngredient(ingName)),
-        onInitIngredients : () => dispatch(actions.initIngredients())
+        onInitIngredients : () => dispatch(actions.initIngredients()),
+        onOrderPlaced : () => dispatch(actions.orderInit())
     }
 }
 

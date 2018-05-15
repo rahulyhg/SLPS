@@ -21,9 +21,7 @@ const rootReducer = combineReducers({
 const loggerMiddleware = state => {
     return next => {
         return action => {
-            console.log('[Middleware previous state] ...', state.getState());
             const result = next(action);
-            console.log('[Middleware next state] ' , state.getState());
             return result;
         }
     }
