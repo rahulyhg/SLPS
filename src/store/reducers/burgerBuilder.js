@@ -1,6 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import reduxThunk from 'redux-thunk';
-
+import {updateObject} from '../Utility/utility';
 const initialState = {
     ingredients : null,
     totalPrice : 4,

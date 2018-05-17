@@ -1,4 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
+import {updateObject} from '../Utility/utility';
 
 const initialState = {
     orders: [],
@@ -11,44 +12,21 @@ const reducer = (state = initialState, action) => {
     switch(action.type)
     {
         case actionTypes.ORDER_INIT: 
-            return {
-                ...state,
-                orderPlaced: false
-            };
+            return updateObject(state, {orderPlaced: false});
         case actionTypes.BURGER_ORDER_START:
-            return {
-                ...state,
-                loading: true
-            };
+            return updateObject(state, {loading: true});
         case actionTypes.BURGER_ORDER_SUCCESS:
-            const newOrder = {...action.orderData, id : action.orderId};
-            return {
-                ...state,
-                orderPlaced : true,
-                orders: state.orders.concat(newOrder)
-            };
+            const newOrder = updateObject(action.orderData, {id : action.orderId});
+            return updateObject(state, {orderPlaced : true, orders: state.orders.concat(newOrder)});
         case actionTypes.BURGER_ORDER_FAILED:
-            return {
-                ...state,
-                loading: false,
-                error: true
-            };
+            return updateObject(state, {loading: false, error: true});
+
         case actionTypes.FETCH_ORDER_INIT:
-            return {
-                ...state,
-                loading: true
-            };
+            return updateObject(state, {loading: true});
         case actionTypes.FETCH_ORDER_SUCCESS: 
-            return {
-                ...state,
-                loading: false,
-                orders: action.orders
-            };
-            case actionTypes.FETCH_ORDER_FAILED:
-            return {
-                ...state,
-                loading: false
-            }
+            return updateObject(state, {loading: false, orders: action.orders});
+        case actionTypes.FETCH_ORDER_FAILED:
+            return updateObject(state, {loading: false});
         default:
             return state;
     }

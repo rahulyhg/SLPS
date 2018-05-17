@@ -28,13 +28,9 @@ export const sendBurgerOrder = (orderData) => {
         .then(response => 
             {
                 dispatch(sendOrderSuccess(response.data.id, orderData))
-                // this.setState({loading:false});
-                // this.props.history.push("/");
             })
         .catch(error =>{
             dispatch(sendOrderFailed(error));
-            // this.setState({loading:false});
-            // console.log(error);
         });
     }
 }
@@ -45,10 +41,10 @@ export const orderInit = () => {
     };
 }
 
-const fetchOrderSuccess = (orders) => {
+const fetchOrderSuccess = (fetchedOrders) => {
     return {
         type: actionTypes.FETCH_ORDER_SUCCESS,
-        orders: orders
+        orders: fetchedOrders
     }
 }
 
@@ -79,6 +75,7 @@ export const fetchOrders = () =>  {
                     }
                 );
             }
+            console.log(fetchedOrders);
             dispatch(fetchOrderSuccess(fetchedOrders));
         })
         .catch(e => {
