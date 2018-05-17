@@ -15,12 +15,9 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, {orderPlaced: false});
         case actionTypes.BURGER_ORDER_START:
             return updateObject(state, {loading: true});
-        case actionTypes.BURGER_ORDER_SUCCESS:
-            const newOrder = updateObject(action.orderData, {id : action.orderId});
-            return updateObject(state, {orderPlaced : true, orders: state.orders.concat(newOrder)});
+        case actionTypes.BURGER_ORDER_SUCCESS: return onOrderSuccess(state, action);
         case actionTypes.BURGER_ORDER_FAILED:
             return updateObject(state, {loading: false, error: true});
-
         case actionTypes.FETCH_ORDER_INIT:
             return updateObject(state, {loading: true});
         case actionTypes.FETCH_ORDER_SUCCESS: 
@@ -30,6 +27,11 @@ const reducer = (state = initialState, action) => {
         default:
             return state;
     }
+}
+
+const onOrderSuccess = (state, action) => {
+    const newOrder = updateObject(action.orderData, {id : action.orderId});
+    return updateObject(state, {orderPlaced : true, orders: state.orders.concat(newOrder)});
 }
 
 export default reducer;
