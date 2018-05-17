@@ -7,6 +7,7 @@ const navigationItems = (props) => (
     <ul className={classes.NavigationItems} >
         <NavigationItem link={Urls.base} exact>Burger Builder</NavigationItem>
         <NavigationItem link={Urls.orders} >Orders </NavigationItem>
+        <NavigationItem link={Urls.auth} >Authenticate </NavigationItem>
     </ul>
 )
 export default navigationItems;
