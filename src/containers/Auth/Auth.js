@@ -148,9 +148,11 @@ class Auth extends Component {
         if (this.props.loading){
             form = <Spinner />;
         }
-        
+        const errorMessage = this.props.error ? <p>{this.props.error.message}</p> : null;
+
         return(
             <div className={classes.Auth}>
+                {errorMessage}
                 {form}
             </div>
         );
@@ -159,7 +161,8 @@ class Auth extends Component {
 
 const mapStateToProps = state => {
     return {
-
+        loading : state.auth.loading,
+        error : state.auth.error
     }
 };
 
@@ -169,4 +172,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
