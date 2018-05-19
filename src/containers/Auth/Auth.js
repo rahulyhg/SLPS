@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 import * as actions from '../../store/actions/index';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import ValidationResult from '../../core/ValidationResult';
-
+import Urls from '../../core/Urls';
 import classes from './Auth.css';
 class Auth extends Component {
     state = {
@@ -122,6 +123,7 @@ class Auth extends Component {
         });
     }
     render(){
+        const redirect = this.props.isAuthenticated ? <Redirect to={Urls.base} /> : null;
         let form = (<form>
             {Object.keys(this.state.controls).map(key => {
                 const config = this.state.controls[key];
@@ -152,6 +154,7 @@ class Auth extends Component {
 
         return(
             <div className={classes.Auth}>
+                {redirect}
                 {errorMessage}
                 {form}
             </div>
@@ -162,7 +165,8 @@ class Auth extends Component {
 const mapStateToProps = state => {
     return {
         loading : state.auth.loading,
-        error : state.auth.error
+        error : state.auth.error,
+        isAuthenticated: state.auth.token != null
     }
 };
 

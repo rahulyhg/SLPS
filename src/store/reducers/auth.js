@@ -24,13 +24,19 @@ const authFailed = (state, action) => {
     });
 }
 
+const logout = (state, action) => {
+    return updateObject(state, {
+        userId : null,
+        token: null
+    })
+}
 const authReducer = (state = initialState, action) => { 
     switch(action.type){
         case actionTypes.AUTH_START: 
             return updateObject(state, {loading: true, error: null});
         case actionTypes.AUTH_SUCCESS: return authSuccess(state, action);
         case actionTypes.AUTH_FAILED: return authFailed(state, action);
-        case actionTypes.AUTH_LOGOUT: return updateObject(state, {userId: null, token: null});
+        case actionTypes.AUTH_LOGOUT: return logout(state, action);
         default: return state;
     }
 }

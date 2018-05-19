@@ -3,6 +3,7 @@ class Urls {
     static contactData = "/contact-data";
     static orders = "/orders";
     static auth  = "/auth";
+    static logout = "/logout";
     static base = "/";
 }
 
