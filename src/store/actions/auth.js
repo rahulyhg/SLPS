@@ -28,6 +28,13 @@ export const logout = () => {
     };
 }
 
+export const setAuthRedirectPath = (path) => {
+    return {
+        type: actionTypes.AUTH_SET_REDIRECT,
+        path: path
+    };
+}
+
 const checkAuthTimeOut = (expirationTime) => {
     return dispatch => {
         setTimeout(() => {
@@ -35,6 +42,7 @@ const checkAuthTimeOut = (expirationTime) => {
         }, expirationTime * 1000);
     }
 }
+
 export const authenticate = (email, password, isSignUp) => {
     return dispatch => {
         dispatch(authStart());

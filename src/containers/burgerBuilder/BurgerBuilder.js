@@ -22,7 +22,7 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount(){
-        console.log('[BurgerBuilder componentDidMount')
+        this.props.onSetAuthRedirect(Urls.base);
         this.props.onInitIngredients();
     }
     checkCanOrder(ingredients){
@@ -37,6 +37,13 @@ class BurgerBuilder extends Component {
     
     showOrderNowHandler = () => {
         this.setState({showOrderNow: true});
+        if (this.props.isAuthenticated){
+            this.setState({showOrderNow: true});
+        }
+        else {
+            this.props.onSetAuthRedirect(Urls.checkout);
+            this.props.history.push(Urls.auth);
+        }
     }
 
     cancelOrderHandler = () => {
@@ -44,6 +51,7 @@ class BurgerBuilder extends Component {
     }
 
     continueOrderHanlder = () => {
+        console.log('[BurgerBuilder] continueOrderHanlder');
         this.props.onOrderPlaced();
         this.props.history.push(Urls.checkout);
     }
@@ -66,6 +74,7 @@ class BurgerBuilder extends Component {
                         removeIngredient={this.props.onRemoveIngredient}
                         disabledInfo={disabledInfo}
                         canOrder={this.checkCanOrder(this.props.ings)}
+                        isAuthenticated={this.props.isAuthenticated}
                         showOrder={this.showOrderNowHandler}
                         />
                 </AuxWrapper>
@@ -90,7 +99,8 @@ const mapStateToProps = state => {
     return {
         ings : state.burgerBuilder.ingredients,
         price : state.burgerBuilder.totalPrice,
-        error: state.burgerBuilder.error
+        error: state.burgerBuilder.error,
+        isAuthenticated: state.auth.token !== null
     };
 }
 
@@ -101,7 +111,8 @@ const mapDispatchToProps = dispatch => {
         },
         onRemoveIngredient : (ingName) => dispatch(actions.removeIngredient(ingName)),
         onInitIngredients : () => dispatch(actions.initIngredients()),
-        onOrderPlaced : () => dispatch(actions.orderInit())
+        onOrderPlaced : () => dispatch(actions.orderInit()),
+        onSetAuthRedirect : (path) => dispatch(actions.setAuthRedirectPath(path))
     }
 }
 

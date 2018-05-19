@@ -1,11 +1,13 @@
 import * as actionTypes from '../actions/actionTypes';
 import {updateObject} from '../Utility/utility';
+import Urls from '../../core/Urls';
 
 const initialState = {
     token : null,
     error : null, 
     userId : null,
-    loading : false
+    loading : false,
+    authRedirectPath : Urls.base
 };
 
 const authSuccess = (state, action) => {
@@ -20,15 +22,22 @@ const authSuccess = (state, action) => {
 const authFailed = (state, action) => {
     return updateObject(state, {
         error: action.error,
-        loading: false
+        loading: false,
     });
 }
 
 const logout = (state, action) => {
     return updateObject(state, {
         userId : null,
-        token: null
-    })
+        token: null,
+        authRedirectPath: Urls.base
+    });
+}
+
+const setAuthRedirectPath = (state, action) => {
+    return updateObject(state, {
+        authRedirectPath: action.path
+    });
 }
 const authReducer = (state = initialState, action) => { 
     switch(action.type){
@@ -37,6 +46,7 @@ const authReducer = (state = initialState, action) => {
         case actionTypes.AUTH_SUCCESS: return authSuccess(state, action);
         case actionTypes.AUTH_FAILED: return authFailed(state, action);
         case actionTypes.AUTH_LOGOUT: return logout(state, action);
+        case actionTypes.AUTH_SET_REDIRECT : return setAuthRedirectPath(state, action);
         default: return state;
     }
 }

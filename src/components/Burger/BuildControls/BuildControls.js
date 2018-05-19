@@ -16,14 +16,15 @@ const buildControls = (props) => {
             added={()=> props.addIngredient(c.type)} 
             removed={() => props.removeIngredient(c.type)} 
             isDisable={props.disabledInfo[c.type]}/>
-    })
+    });
+    const orderCaption = props.isAuthenticated ? 'ORDER NOW' : 'SING IN TO ORDER';
     return (
         <div className={classes.BuildControls} >
             <p>Current Price : <strong>{props.price.toFixed(2)}</strong></p>
             {transformedControls}
             <button className={classes.OrderButton}
                 onClick={props.showOrder}
-                disabled={!props.canOrder}>ORDER NOW</button>
+                disabled={!props.canOrder}>{orderCaption}</button>
         </div>
     )
 }

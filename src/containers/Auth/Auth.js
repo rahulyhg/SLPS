@@ -123,7 +123,7 @@ class Auth extends Component {
         });
     }
     render(){
-        const redirect = this.props.isAuthenticated ? <Redirect to={Urls.base} /> : null;
+        const redirect = this.props.isAuthenticated ? <Redirect to={this.props.redirectPath} /> : null;
         let form = (<form>
             {Object.keys(this.state.controls).map(key => {
                 const config = this.state.controls[key];
@@ -166,7 +166,8 @@ const mapStateToProps = state => {
     return {
         loading : state.auth.loading,
         error : state.auth.error,
-        isAuthenticated: state.auth.token != null
+        isAuthenticated: state.auth.token != null,
+        redirectPath : state.auth.authRedirectPath
     }
 };
 
