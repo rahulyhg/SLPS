@@ -13,7 +13,7 @@ const authSuccess = (state, action) => {
         error: null,
         loading: false, 
         userId: action.userId,
-        idToken: action.idToken
+        token: action.idToken
     });
 }
 
@@ -30,7 +30,7 @@ const authReducer = (state = initialState, action) => {
             return updateObject(state, {loading: true, error: null});
         case actionTypes.AUTH_SUCCESS: return authSuccess(state, action);
         case actionTypes.AUTH_FAILED: return authFailed(state, action);
-        case actionTypes.AUTH_LOGOUT: return updateObject(state, {userId: null, idToken: null});
+        case actionTypes.AUTH_LOGOUT: return updateObject(state, {userId: null, token: null});
         default: return state;
     }
 }

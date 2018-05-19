@@ -9,7 +9,7 @@ import axios from '../../axious-orders';
 class Orders extends Component {
 
     componentDidMount(){
-        this.props.onFetchOrders();
+        this.props.onFetchOrders(this.props.token);
     }
     render(){
         const orders = this.props.loading ? <Spinner /> : (
@@ -31,12 +31,13 @@ class Orders extends Component {
 const mapStateToProps = state => {
     return {
         loading : state.orders.loading,
-        orders : state.orders.orders
+        orders : state.orders.orders,
+        token : state.auth.token
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchOrders : () => dispatch(actions.fetchOrders())
+        onFetchOrders : (token) => dispatch(actions.fetchOrders(token))
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Orders, axios));
