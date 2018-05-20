@@ -7,6 +7,7 @@ import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
 import ValidationResult from '../../../core/ValidationResult';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+import {updateObject} from '../../../core/Utility/utility';
 import * as actions from '../../../store/actions/index';
 
 class ContactData extends Component {
@@ -156,14 +157,20 @@ class ContactData extends Component {
     }
 
     inputChangeHandler = (event, identifier) => {
-        const updatedForm = {...this.state.orderForm};
-        const updatedElement = {...updatedForm[identifier]};
-        updatedElement.value = event.target.value;
+        //const updatedForm = {...this.state.orderForm};
+        const validationResult = this.checkValidity(event.target.value, this.state.orderForm[identifier].validation);
 
-        const validationResult = this.checkValidity(updatedElement.value, updatedElement.validation);
-        updatedElement.valid = validationResult.isValid;
-        updatedElement.errorMessages = validationResult.messages;
-        updatedForm[identifier] = updatedElement;
+        const updatedElement = updateObject(this.state.orderForm[identifier], {
+            value : event.target.value,
+            valid : validationResult.isValid,
+            errorMessages : validationResult.messages
+        })
+
+        const updatedForm = updateObject(this.state.orderForm, {
+            [identifier] : updatedElement
+        });
+
+        //updatedForm[identifier] = updatedElement;
         
         const isFormValid = true; //(!this.state.isModified || this.state.isFormValid) && updatedElement.valid;
         console.log('isFormValid', isFormValid)

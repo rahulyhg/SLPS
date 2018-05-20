@@ -1,5 +1,5 @@
 import * as actionTypes from '../actions/actionTypes';
-import {updateObject} from '../Utility/utility';
+import {updateObject} from '../../core/Utility/utility';
 import Urls from '../../core/Urls';
 
 const initialState = {

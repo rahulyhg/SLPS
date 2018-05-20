@@ -5,9 +5,10 @@ import * as actions from '../../store/actions/index';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import Spinner from '../../components/UI/Spinner/Spinner';
+import {updateObject} from '../../core/Utility/utility';
 import ValidationResult from '../../core/ValidationResult';
-import Urls from '../../core/Urls';
 import classes from './Auth.css';
+
 class Auth extends Component {
     state = {
         controls : {
@@ -95,17 +96,20 @@ class Auth extends Component {
     }
     
     inputChangeHandler = (event, controlName) => {
-        const updatedControls = {...this.state.controls};
 
-        const updatedElement = {...updatedControls[controlName],
-            value: event.target.value,
-            touched: true
-            };
-        const validationResult = this.checkValidity(updatedElement.value, updatedElement.validation);
-        updatedElement.valid = validationResult.isValid;
-        updatedElement.errorMessages = validationResult.messages;
+        const validationResult = this.checkValidity(event.target.value, this.state.controls[controlName].validation);
+        const updatedElement = updateObject(this.state.controls[controlName],
+            {
+                value : event.target.value,
+                touched : true,
+                valid : validationResult.isValid,
+                errorMessages : validationResult.messages
+            }
+        )
 
-        updatedControls[controlName] = updatedElement;
+        const updatedControls = updateObject(this.state.controls, {
+                [controlName] : updatedElement
+            });
         this.setState({controls: updatedControls});
     }
 
