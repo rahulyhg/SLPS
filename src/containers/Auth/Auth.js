@@ -5,8 +5,7 @@ import * as actions from '../../store/actions/index';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import {updateObject} from '../../core/Utility/utility';
-import ValidationResult from '../../core/ValidationResult';
+import {updateObject, checkValidity} from '../../core/Utility/utility';
 import classes from './Auth.css';
 
 class Auth extends Component {
@@ -50,54 +49,10 @@ class Auth extends Component {
         isFormValid : true,
         isSignUp : true
     }
-
-    checkValidity = (value, rules) => {
-        let valid = true;
-        let errorMessages = [];
-
-        if (!rules){
-            return ValidationResult.valid;
-        }
-
-        if (rules.required){
-            valid = valid && value.trim() !== '';
-            if (!valid){
-                errorMessages.push('Required.');
-                console.log('failed @ required');
-            }
-        }
-
-        if (rules.minLength){
-            valid = valid && value.length >= rules.minLength;
-            if (!valid){
-                errorMessages.push(`Minimum ${rules.minLength} character required.`);
-                console.log('failed min length validation');
-            }
-        }
-
-        if (rules.isEmail) {
-            const pattern = '';
-            valid = pattern.test(value) && valid;
-            errorMessages.push('Invalid email pattern.');
-            console.log('failed email validation');
-        }
-        if (rules.maxLength){
-            console.log(`value.length ${value.length}`);
-            valid = valid && value.length <= rules.maxLength;
-            if (!valid){
-                errorMessages.push(`Maximum ${rules.maxLength} character allowed. But you entered ${value.length}`);
-                console.log('failed max length validation');
-            }
-        }
-        if (!valid){
-            console.log(value, 'is not valid')
-        }
-        return new ValidationResult(valid, errorMessages);
-    }
     
     inputChangeHandler = (event, controlName) => {
 
-        const validationResult = this.checkValidity(event.target.value, this.state.controls[controlName].validation);
+        const validationResult = checkValidity(event.target.value, this.state.controls[controlName].validation);
         const updatedElement = updateObject(this.state.controls[controlName],
             {
                 value : event.target.value,
