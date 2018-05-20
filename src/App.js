@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Switch, withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import * as actions from './store/actions/index';
 
 import Layout from '../src/hoc/layout/Layout';
 import BurgerBuilder from './containers/burgerBuilder/BurgerBuilder';
@@ -10,6 +12,12 @@ import Logout from './containers/Auth/Logout/Logout';
 import Urls from './core/Urls';
 
 class App extends Component {
+  componentDidMount() {
+    if (!this.props.isAuthenticated){
+
+      this.props.onTryAutoSignIn();
+    }
+  }
   render() {
     return (
       <div>
@@ -27,4 +35,14 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    isAuthenticated : state.auth.token !== null,
+  };
+}
+const mapDispatchToProps = dispatch => {
+  return {
+    onTryAutoSignIn : () => dispatch(actions.checkAuthState())
+  }
+}
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
