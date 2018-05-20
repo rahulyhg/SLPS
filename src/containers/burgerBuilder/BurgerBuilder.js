@@ -51,7 +51,6 @@ class BurgerBuilder extends Component {
     }
 
     continueOrderHanlder = () => {
-        console.log('[BurgerBuilder] continueOrderHanlder');
         this.props.onOrderPlaced();
         this.props.history.push(Urls.checkout);
     }
