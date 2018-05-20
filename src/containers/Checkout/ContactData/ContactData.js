@@ -5,7 +5,6 @@ import classes from './ContactData.css';
 import axios from '../../../axious-orders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
-import ValidationResult from '../../../core/ValidationResult';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import {updateObject, checkValidity} from '../../../core/Utility/utility';
 import * as actions from '../../../store/actions/index';
@@ -17,6 +16,7 @@ class ContactData extends Component {
             elementType : 'input',
             elementConfig : {
                 type : 'text',
+                autoComplete: 'name',
                 placeholder : 'Name'
             },
             value : '',
@@ -31,8 +31,9 @@ class ContactData extends Component {
             elementType : 'input',
             elementConfig : {
                 type : 'email',
+                autoComplete: 'email',
                 placeholder : 'E-Mail',
-                pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$"
             },
             validation: {
                 required : true,
@@ -47,6 +48,7 @@ class ContactData extends Component {
             elementType : 'input',
             elementConfig : {
                 type : 'text',
+                autoComplete: 'street',
                 placeholder : 'Street'
             },
             value : '',
@@ -60,6 +62,7 @@ class ContactData extends Component {
             elementType : 'input',
             elementConfig : {
                 type : 'text',
+                autoComplete: 'postcode',
                 placeholder : 'Post code'
             },
             errorMessages : [],
@@ -74,7 +77,8 @@ class ContactData extends Component {
             elementType : 'input',
             elementConfig : {
                 type : 'text',
-                placeholder : 'Country'
+                placeholder : 'Country',
+                autoComplete: 'country'
             },
             errorMessages : [],
             validation: {
@@ -85,6 +89,7 @@ class ContactData extends Component {
         },        
         deliveryMethod : {
             elementType : 'select', 
+            autoComplete: 'delevery-method',
             elementConfig : {
                 options : [{value: 'fastest', display: 'Fastest'},
                             {value: 'cheapest', display: 'Cheapest'}]
@@ -116,44 +121,6 @@ class ContactData extends Component {
             userId: this.props.userId
         };
         this.props.onOrderPlaced(order, this.props.token);
-    }
-
-    checkValidity = (value, rules) => {
-        let valid = true;
-        let errorMessages = [];
-
-        if (!rules){
-            return ValidationResult.valid;
-        }
-
-        if (rules.required){
-            valid = valid && value.trim() !== '';
-            if (!valid){
-                errorMessages.push('Required.');
-                console.log('failed @ required');
-            }
-        }
-
-        if (rules.minLength){
-            valid = valid && value.length >= rules.minLength;
-            if (!valid){
-                errorMessages.push(`Minimum ${rules.minLength} character required.`);
-                console.log('failed min length validation');
-            }
-        }
-
-        if (rules.maxLength){
-            console.log(`value.length ${value.length}`);
-            valid = valid && value.length <= rules.maxLength;
-            if (!valid){
-                errorMessages.push(`Maximum ${rules.maxLength} character allowed. But you entered ${value.length}`);
-                console.log('failed max length validation');
-            }
-        }
-        if (!valid){
-            console.log(value, 'is not valid')
-        }
-        return new ValidationResult(valid, errorMessages);
     }
 
     inputChangeHandler = (event, identifier) => {

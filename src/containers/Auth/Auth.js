@@ -16,8 +16,9 @@ class Auth extends Component {
                 label: 'Email',
                 elementConfig : {
                     type : 'email',
+                    autoComplete: 'email',
                     placeholder : 'E-Mail',
-                    pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                    pattern: "[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$"
                 },
                 validation: {
                     required : true,
@@ -34,6 +35,7 @@ class Auth extends Component {
                 label: 'Password',
                 elementConfig : {
                     type : 'password',
+                    autoComplete: 'password',
                     placeholder : 'Password'
                 },
                 validation: {

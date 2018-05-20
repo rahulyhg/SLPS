@@ -24,7 +24,6 @@ const withErrorHandler = (WrappedComponent, axios) => {
         }
 
         clearError = () => {
-            console.log('withErrorHandler.js clear invokced');
             this.setState({error: null});
         }
         render(){

@@ -1,5 +1,4 @@
 import * as actionTypes from '../actions/actionTypes';
-import reduxThunk from 'redux-thunk';
 import {updateObject} from '../../core/Utility/utility';
 
 const initialState = {
@@ -22,8 +21,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.FETCH_INGREDIENT_FAILED:
             return updateObject(state, {error: true});
         case actionTypes.SET_INGREDIENT: return setIngredient(state, action);
+        default: return state;
     }
-    return state;
 };
 
 const addIngredient = (state, action) => {

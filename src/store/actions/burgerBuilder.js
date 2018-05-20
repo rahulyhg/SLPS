@@ -1,5 +1,4 @@
 import * as actionTypes from './actionTypes';
-import reduxThunk from 'redux-thunk';
 import axios from '../../axious-orders';
 
 export const addIngredient = (ingName) => {
