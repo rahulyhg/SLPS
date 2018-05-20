@@ -16,7 +16,7 @@ const sideDrawer = (props) => {
             <BackDrop show={props.open} 
                 backDropClicked={props.closed}
                 />
-            <div className={transformedClasses}>
+            <div className={transformedClasses} onClick={props.closed}>
                 <div className={classes.Logo}>
                     <Logo />
                 </div>
