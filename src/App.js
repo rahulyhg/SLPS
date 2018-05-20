@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Route, Switch, withRouter} from 'react-router-dom';
+import {Route, Switch, withRouter, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as actions from './store/actions/index';
 
@@ -19,16 +19,26 @@ class App extends Component {
     }
   }
   render() {
-    return (
-      <div>
-        <Layout>
-          <Switch>
+    const routes = this.props.isAuthenticated ? 
+      ( <Switch>
           <Route path={Urls.checkout} component={Checkout} />
           <Route path={Urls.orders} component={Orders} />
           <Route path={Urls.auth} component={Auth} />
           <Route path={Urls.logout} component={Logout} />
           <Route path={Urls.base} component={BurgerBuilder} exact />
-          </Switch>
+          <Redirect to={Urls.base} />
+        </Switch>
+      ): (
+        <Switch>
+          <Route path={Urls.auth} component={Auth} />
+          <Route path={Urls.base} component={BurgerBuilder} exact />
+          <Redirect to={Urls.base} />
+        </Switch>
+      )
+    return (
+      <div>
+        <Layout>
+          {routes}
         </Layout>        
       </div>
     );
