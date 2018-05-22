@@ -16,3 +16,6 @@ npm install --save react-router-dom
 
 Redux
 npm install --save redux react-redux
+
+Enzyme API: http://airbnb.io/enzyme/docs/api/
+Jest API: https://facebook.github.io/jest/
