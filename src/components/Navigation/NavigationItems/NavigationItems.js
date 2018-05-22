@@ -10,8 +10,8 @@ const navigationItems = (props) => (
         {props.isAuthenticated 
             ? 
             <AuxWrapper>
-                <NavigationItem link={Urls.orders} >Orders </NavigationItem>
-                <NavigationItem link={Urls.logout} >Logout </NavigationItem>
+                <NavigationItem link={Urls.orders}>Orders</NavigationItem>
+                <NavigationItem link={Urls.logout}>Logout</NavigationItem>
             </AuxWrapper>
             : <NavigationItem link={Urls.auth} >Login </NavigationItem>
         }
