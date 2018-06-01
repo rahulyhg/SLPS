@@ -4,11 +4,16 @@ import {connect} from 'react-redux';
 import * as actions from './store/actions/index';
 import asyncComponent from './hoc/asyncComponent/asyncComponent';
 import Layout from '../src/hoc/layout/Layout';
+import Home from './containers/Home/Home';
+import ContactUs from './containers/ContactUs/ContactUs';
+import Announcements from './containers/Announcements/Announcements';
 import BurgerBuilder from './containers/burgerBuilder/BurgerBuilder';
 import Checkout from './containers/Checkout/Checkout'
 import Orders from './containers/Orders/Orders';
 import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
+import Gallery from './containers/Gallery/Gallery';
+import Events from './containers/Events/Events';
 import Urls from './core/Urls';
 
 const asyncCheckout = asyncComponent((() => {
@@ -31,15 +36,23 @@ class App extends Component {
       ( <Switch>
           <Route path={Urls.checkout} component={Checkout} />
           <Route path={Urls.orders} component={Orders} />
+          <Route path={Urls.Gallery} component={Gallery} />
+          <Route path={Urls.Events} component={Events} />
           <Route path={Urls.auth} component={Auth} />
+          <Route path={Urls.Announcements} component={Announcements} />
           <Route path={Urls.logout} component={Logout} />
-          <Route path={Urls.base} component={BurgerBuilder} exact />
+          <Route path={Urls.ContactUs} component={ContactUs} />
+          <Route path={Urls.base} component={Home} exact />
           <Redirect to={Urls.base} />
         </Switch>
       ): (
         <Switch>
+          <Route path={Urls.Gallery} component={Gallery} />
+          <Route path={Urls.Events} component={Events} />
+          <Route path={Urls.Announcements} component={Announcements} />
           <Route path={Urls.auth} component={Auth} />
-          <Route path={Urls.base} component={BurgerBuilder} exact />
+          <Route path={Urls.ContactUs} component={ContactUs} />
+          <Route path={Urls.base} component={Home} exact />
           <Redirect to={Urls.base} />
         </Switch>
       )
