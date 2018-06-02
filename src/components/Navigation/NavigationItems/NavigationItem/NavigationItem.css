@@ -6,7 +6,7 @@
 }
 
 .NavigationItem a {
-    color: white;
+    color: rgb(107, 59, 14);
     display:block;
     box-sizing: border-box;
     width: 100%;
@@ -17,7 +17,7 @@
 .NavigationItem a:active,
 .NavigationItem a.active {
     border-bottom-color: #40A4c8;
-    color:#40A4c8;
+    border:1px solid #8F5C2C;
 }
 
 @media(min-width:500px){
