@@ -39,16 +39,22 @@ const Input = (props) => {
                 break;
     }
     const errorMessages = props.errorMessages ? 
-        props.errorMessages.map(message => <p key={message} className={classes.ErrorMessage}>{message}</p>) : null;
+        props.errorMessages.map(message => <ErrorMessage message={message} key={message}></ErrorMessage>) : null;
     const validationError = props.errorMessages ? errorMessages : null;
 
     return(
         <div className={classes.Input}>
-            <label className={classes.Label}>{props.label}{props.label ? ':' : ''}</label>
+            <label className={classes.Label}>{props.label ? `${props.label}:` : ''}</label>
             {inputElement}
             {validationError}
         </div>
         );
+}
+
+export const ErrorMessage = (props) => {
+    return (
+        <p className={classes.ErrorMessage} {...props}>{props.message}</p>
+    );
 }
 
 export default Input;

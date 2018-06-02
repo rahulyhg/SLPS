@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import * as actions from '../../store/actions/index';
-import Input from '../../components/UI/Input/Input';
+import Input, {ErrorMessage} from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import {updateObject, checkValidity} from '../../core/Utility/utility';
+import {messageMapper} from '../../core/messages';
 import classes from './Auth.css';
 
 class Auth extends Component {
@@ -111,7 +112,9 @@ class Auth extends Component {
         if (this.props.loading){
             form = <Spinner />;
         }
-        const errorMessage = this.props.error ? <p>{this.props.error.message}</p> : null;
+        
+        // const mappedError = {messageMapper.get(this.props.error.message) ? this.props.error.message : null};
+        const errorMessage = this.props.error ? <ErrorMessage message={this.props.error.message}></ErrorMessage> : null;
 
         return(
             <div className={classes.Auth}>
